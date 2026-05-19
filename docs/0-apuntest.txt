@@ -21,3 +21,25 @@ Sin pg, Express puede recibir peticiones, pero no sabría cómo hablar con la ba
 | pg          | Librería de PostgreSQL         | Conectar Node.js con la base de datos      |
 | Pool        | Administrador de conexiones    | Reutilizar conexiones a PostgreSQL         |
 | nodemon     | Herramienta de desarrollo      | Reiniciar el servidor automáticamente      |
+
+
+Estructura Base (Iniciar proyecto):
+
+intellipark-api/
+  src/
+    app.js
+    server.js
+    config/
+      database.js
+  .env
+  .gitignore
+  package.json
+
+| Archivo                  | Responsabilidad                                                                                                |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------|
+| `package.json`           | Define dependencias, scripts y configuración básica del proyecto.                                              |
+| `.env`                   | Guarda variables sensibles o configurables: puerto, credenciales de base de datos, JWT secret, Key sonarqube   |
+| `.gitignore`             | Evita subir `node_modules` y `.env` al repositorio.                                                            |
+| `src/app.js`             | Configura Express, middlewares y rutas base.                                                                   |
+| `src/server.js`          | Levanta el servidor en el puerto definido.                                                                     |
+| `src/config/database.js` | Centraliza la conexión a PostgreSQL usando `pg`.                                                               |
