@@ -1,0 +1,23 @@
+Node.js es el terreno donde construimos.
+Express es la estructura de la casa.
+dotenv es el archivo donde guardamos llaves privadas.
+pg es el puente hacia PostgreSQL.
+Pool es el administrador de conexiones a la base de datos.
+nodemon es el ayudante que reinicia el servidor cuando haces cambios.
+
+Express es una librería/framework para crear servidores web y APIs con Node.js.
+Cliente → petición HTTP → servidor Express → respuesta HTTP
+
+dotenv sirve para cargar variables de configuración desde un archivo .env.
+
+pg es la librería que permite conectar Node.js con PostgreSQL.
+También se conoce como node-postgres.
+Sin pg, Express puede recibir peticiones, pero no sabría cómo hablar con la base de datos PostgreSQL.
+
+| Herramienta | ¿Qué es?                       | ¿Para qué sirve en IntelliPark?            |
+| ----------- | ------------------------------ | ------------------------------------------ |
+| Express     | Framework web                  | Crear la API REST del parqueadero          |
+| dotenv      | Gestor de variables de entorno | Guardar puerto, credenciales DB y secretos |
+| pg          | Librería de PostgreSQL         | Conectar Node.js con la base de datos      |
+| Pool        | Administrador de conexiones    | Reutilizar conexiones a PostgreSQL         |
+| nodemon     | Herramienta de desarrollo      | Reiniciar el servidor automáticamente      |

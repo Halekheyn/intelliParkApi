@@ -1,0 +1,12 @@
+A. Objetivo del módulo
+
+Crear la base funcional del backend de IntelliPark, dejando listo:
+
+Proyecto Node.js inicializado.
+Dependencias instaladas.
+Estructura de carpetas.
+Servidor Express configurado.
+Variables de entorno con .env.
+CORS habilitado.
+Conexión inicial a PostgreSQL.
+Endpoint de prueba: GET /api/health.
