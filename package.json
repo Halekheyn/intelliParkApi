@@ -1,15 +1,22 @@
 {
   "name": "intelliparkapi",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Backend API for IntelliPark parking management system",
+  "main": "serc/server.js",
   "directories": {
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "node",
+    "express",
+    "postgresql",
+    "parking",
+    "api"
+  ],
+  "author": "SENA - ADSO",
   "license": "ISC"
 }
