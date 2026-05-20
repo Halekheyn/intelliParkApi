@@ -2,7 +2,7 @@
   "name": "intelliparkapi",
   "version": "1.0.0",
   "description": "Backend API for IntelliPark parking management system",
-  "main": "serc/server.js",
+  "main": "src/server.js",
   "directories": {
     "doc": "docs"
   },
