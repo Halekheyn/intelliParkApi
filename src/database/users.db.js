@@ -25,7 +25,7 @@ const findUserByUserEmail = async (user_email) => {
       user_first_name,
       user_last_name,
       user_email,
-      password_hash,
+      user_password,
       user_role,
       user_active,
       user_created_at
@@ -60,10 +60,10 @@ const createUser = async (userData) => {
   `;
 
   const values = [
-    userData.user_name,
-    userData.user_apellido,
+    userData.user_first_name,
+    userData.user_last_name,
     userData.user_email,
-    userData.user_password,
+    userData.user_password_hash,
     userData.user_role || 'operator'
   ];
 
