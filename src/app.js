@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { pool } = require('./config/database.js');
+const authRoutes = require('./routes/auth.routes');
 
 const app = express();
 app.disable("x-powered-by");
@@ -33,5 +34,6 @@ app.get('/api/health', async (req, res) => {
     }
 });
 
+app.use('/api/auth', authRoutes);
 
 module.exports = app;
