@@ -1,0 +1,42 @@
+Bloque 3C — Middleware de autenticación con JWT
+
+A. Objetivo del módulo
+
+Crear un middleware que:
+
+1. Lea el token enviado en el header Authorization.
+2. Valide que el token exista.
+3. Verifique que el token sea válido.
+4. Guarde los datos del usuario en req.user.
+5. Permita continuar a la ruta protegida.
+
+Responsabilidad de cada archivo
+
+| Archivo              | Responsabilidad                    |
+| -------------------- | ---------------------------------- |
+| `jwt.util.js`        | Generar y verificar tokens JWT.    |
+| `auth.middleware.js` | Proteger rutas validando el token. |
+| `users.db.js`        | Buscar usuario por ID.             |
+| `auth.service.js`    | Obtener el usuario autenticado.    |
+| `auth.controller.js` | Responder la ruta `/me`.           |
+| `auth.routes.js`     | Registrar la ruta protegida.       |
+
+
+Explicación del flujo
+
+Cuando haces esta petición:
+
+GET /api/auth/me
+
+El flujo será:
+
+1. Postman envía el token en Authorization.
+2. auth.routes.js recibe la ruta /me.
+3. authenticateToken revisa el token.
+4. Si el token es válido, guarda los datos en req.user.
+5. getMe toma req.user.userId.
+6. auth.service.js busca el usuario en la base de datos.
+7. users.db.js consulta PostgreSQL.
+8. El backend responde los datos del usuario autenticado.
+
+register → login → token JWT → ruta protegida
