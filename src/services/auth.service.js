@@ -1,4 +1,4 @@
-const { findUserByUserEmail, createUser } = require('../database/users.db');
+const { findUserByUserEmail, createUser, findUserById } = require('../database/users.db');
 const { comparePassword, hashPassword } = require('../utils/password.util');
 const { generateToken } = require('../utils/jwt.util.js');
 
@@ -73,8 +73,30 @@ const loginUser = async (credentials) => {
     };
 }
 
+const getAuthenticatedUser = async (userId) => {
+  const user = await findUserById(userId);
+
+  if (!user) {
+    throw new Error('El usuario no encontrado.');
+  }
+
+  if (!user.user_active) {
+    throw new Error('El usuario no esta activo.');
+  }
+
+  return {
+    user_id: user.user_id,
+    user_first_name: user.user_first_name,
+    user_last_name: user.user_last_name,
+    user_email: user.user_email,
+    user_role: user.user_role,
+    user_active: user.user_active
+  };
+};
+
 
 module.exports = {
   registerUser,
-  loginUser
+  loginUser,
+  getAuthenticatedUser
 };
