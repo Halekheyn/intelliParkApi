@@ -56,9 +56,9 @@ const loginUser = async (credentials) => {
     }
 
     const token = generateToken({
-        userId: user.user_id,
-        userEmail: user.user_email,
-        userRole: user.user_role
+        user_id: user.user_id,
+        user_email: user.user_email,
+        user_role: user.user_role
     });
 
     return {
