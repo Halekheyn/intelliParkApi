@@ -3,6 +3,7 @@ const cors = require('cors');
 const { pool } = require('./config/database.js');
 const authRoutes = require('./routes/auth.routes');
 const usersRoutes = require('./routes/users.routes');
+const vehiclesRoutes = require('./routes/vehicles.routes');
 
 const app = express();
 app.disable("x-powered-by");
@@ -37,5 +38,6 @@ app.get('/api/health', async (req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', usersRoutes);
+app.use('/api/vehicles', vehiclesRoutes);
 
 module.exports = app;
