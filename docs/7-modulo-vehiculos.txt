@@ -1,0 +1,144 @@
+Bloque — Módulo de vehículos
+
+Este módulo permite registrar y consultar vehículos dentro del sistema IntelliPark.
+
+Se decidió manejar el vehículo de forma simple, porque en un parqueadero común normalmente no se solicitan datos personales del propietario. El dato principal para operar el servicio es la placa del vehículo.
+
+A. Objetivo del módulo
+
+Crear endpoints protegidos para vehículos:
+
+POST /api/vehicles
+GET /api/vehicles
+GET /api/vehicles/:id
+GET /api/vehicles/plate/:plate
+
+Regla inicial:
+
+Solo los roles administrador y operador pueden registrar y consultar vehículos.
+
+B. Enfoque del módulo
+
+El vehículo se registra con información mínima:
+
+- Placa
+- Tipo de vehículo
+- Marca opcional
+- Color opcional
+- Usuario que registró el vehículo
+
+No se registran datos personales como nombre del dueño, teléfono o información del cliente.
+
+C. Tipos de vehículo
+
+Se definió un tipo controlado para evitar valores incorrectos.
+
+Tipos permitidos:
+
+- carro
+- moto
+- camioneta
+- otro
+
+D. Responsabilidad de cada archivo
+
+| Archivo                  | Responsabilidad                                                   |
+| ------------------------ | ----------------------------------------------------------------- |
+| `vehicles.routes.js`     | Define las rutas del módulo vehículos.                            |
+| `vehicles.controller.js` | Recibe peticiones HTTP y responde al cliente.                     |
+| `vehicles.service.js`    | Contiene la lógica de negocio del módulo vehículos.               |
+| `vehicles.db.js`         | Ejecuta consultas SQL relacionadas con vehículos.                 |
+| `auth.middleware.js`     | Valida que el usuario esté autenticado con token JWT.             |
+| `role.middleware.js`     | Valida si el usuario tiene rol administrador u operador.          |
+| `app.js`                 | Conecta `/api/vehicles` con Express.                              |
+
+E. Flujo general del módulo
+
+Postman
+↓
+vehicles.routes.js
+↓
+authenticateToken
+↓
+authorizeRoles('administrador', 'operador')
+↓
+vehicles.controller.js
+↓
+vehicles.service.js
+↓
+vehicles.db.js
+↓
+PostgreSQL
+
+F. Reglas aplicadas
+
+- La placa es obligatoria.
+- La placa debe ser única.
+- La placa se normaliza a mayúsculas para evitar duplicados por diferencias de escritura.
+- El tipo de vehículo debe pertenecer a los valores permitidos.
+- El vehículo queda activo por defecto.
+- El usuario que registra el vehículo se obtiene desde el token JWT.
+- No se envían datos del usuario creador desde el body.
+- No se solicitan datos personales del propietario.
+
+G. Pruebas principales en Postman
+
+Antes de probar el módulo, se debe iniciar sesión con un usuario administrador u operador y copiar el token JWT.
+
+Registrar vehículo:
+
+POST /api/vehicles
+
+Consultar todos los vehículos:
+
+GET /api/vehicles
+
+Consultar vehículo por ID:
+
+GET /api/vehicles/:id
+
+Consultar vehículo por placa:
+
+GET /api/vehicles/plate/:plate
+
+H. Errores comunes esperados
+
+- Placa no enviada.
+- Placa ya registrada.
+- Tipo de vehículo no permitido.
+- Token no enviado.
+- Token inválido o vencido.
+- Usuario sin rol autorizado.
+
+I. Decisión de diseño
+
+Se decidió no registrar información del propietario porque IntelliPark, en su primera versión, representa un flujo básico de parqueadero.
+
+En esta etapa, el sistema no maneja clientes frecuentes, mensualidades, convenios ni facturación nominativa.
+
+Si el proyecto crece, más adelante podrían crearse módulos adicionales como:
+
+- clientes
+- vehículos de clientes
+- mensualidades
+- convenios
+- suscripciones
+
+J. Siguiente paso recomendado
+
+El siguiente módulo recomendado es:
+
+Bloque 6 — Ingreso de vehículos al parqueadero
+
+En este módulo se debe crear el proceso de ingreso o check-in del vehículo.
+
+Regla principal:
+
+No permitir dos ingresos activos para la misma placa.
+
+Endpoints sugeridos:
+
+POST /api/parking/check-in
+GET /api/parking/active
+
+Este módulo conectará el registro del vehículo con la operación real del parqueadero.
