@@ -5,6 +5,7 @@ const authRoutes = require('./routes/auth.routes');
 const usersRoutes = require('./routes/users.routes');
 const vehiclesRoutes = require('./routes/vehicles.routes');
 const parkingRoutes = require('./routes/parking.routes');
+const paymentsRoutes = require('./routes/payments.routes');
 
 const app = express();
 app.disable("x-powered-by");
@@ -41,5 +42,6 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/vehicles', vehiclesRoutes);
 app.use('/api/parking', parkingRoutes);
+app.use('/api/payments', paymentsRoutes);
 
 module.exports = app;
