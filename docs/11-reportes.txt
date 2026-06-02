@@ -1,0 +1,38 @@
+Bloque 9 — Módulo de reportes básicos
+
+A. Objetivo del módulo
+
+Crear un endpoint para consultar ingresos por rango de fechas:
+
+GET /api/reports/income?from=2026-06-01&to=2026-06-30
+
+El reporte debe devolver:
+
+- Total de ingresos.
+- Cantidad de pagos.
+- Ingresos por método de pago.
+- Ingresos por tipo de vehículo.
+- Detalle de pagos registrados.
+
+Regla inicial:
+
+Solo el rol administrador puede consultar reportes financieros.
+
+B. Flujo del módulo
+
+Postman
+↓
+reports.routes.js
+↓
+authenticateToken
+↓
+authorizeRoles('administrador')
+↓
+reports.controller.js
+↓
+reports.service.js
+↓
+reports.db.js
+↓
+PostgreSQL
+
