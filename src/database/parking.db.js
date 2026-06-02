@@ -75,8 +75,43 @@ const findActiveParkingRecords = async () => {
   return result.rows;
 };
 
+const updateParkingRecordCheckOut = async (checkOutData) => {
+  const query = `
+    UPDATE parking_records
+    SET
+      parking_exit_time = $1,
+      parking_status = 'finalizado',
+      parking_total_minutes = $2,
+      parking_total_amount = $3,
+      parking_updated_at = CURRENT_TIMESTAMP
+    WHERE parking_id = $4
+    RETURNING
+      parking_id,
+      vehicle_id,
+      parking_entry_time,
+      parking_exit_time,
+      parking_status,
+      parking_total_minutes,
+      parking_total_amount,
+      parking_created_by,
+      parking_created_at,
+      parking_updated_at
+  `;
+
+  const values = [
+    checkOutData.exitTime,
+    checkOutData.totalMinutes,
+    checkOutData.totalAmount,
+    checkOutData.parkingId
+  ];
+
+  const result = await pool.query(query, values);
+  return result.rows[0];
+};
+
 module.exports = {
   createParkingRecord,
   findActiveParkingByVehicleId,
-  findActiveParkingRecords
+  findActiveParkingRecords,
+  updateParkingRecordCheckOut
 };
