@@ -2,6 +2,7 @@ const express = require('express');
 
 const {
   checkIn,
+  checkOut,
   findActive
 } = require('../controllers/parking.controller');
 
@@ -15,6 +16,13 @@ router.post(
   authenticateToken,
   authorizeRoles('administrador', 'operador'),
   checkIn
+);
+
+router.post(
+  '/check-out',
+  authenticateToken,
+  authorizeRoles('administrador', 'operador'),
+  checkOut
 );
 
 router.get(
