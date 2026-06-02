@@ -1,0 +1,25 @@
+Bloque 8 — Módulo de pagos
+
+A. Objetivo del módulo
+
+Crear endpoints para registrar y consultar pagos:
+
+POST /api/payments
+GET /api/payments
+GET /api/payments/:id
+GET /api/payments/parking/:parkingId
+
+Reglas principales:
+
+1. Solo se puede pagar un parqueo finalizado.
+2. No se permite pago duplicado para el mismo registro de parqueo.
+3. El valor pagado se toma del valor calculado en parking_records.
+4. Los pagos serán la base para los reportes financieros.
+
+B. SQL del módulo
+
+Crea el archivo en tu carpeta de SQL:
+
+migracion/004_create_payments.sql
+
+
