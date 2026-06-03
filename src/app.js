@@ -1,6 +1,12 @@
 const express = require('express');
 const cors = require('cors');
-const { pool } = require('./config/database.js');
+
+const {
+  notFoundHandler,
+  errorHandler
+} = require('./middlewares/error.middleware');
+
+const { pool } = require('./config/database');
 const authRoutes = require('./routes/auth.routes');
 const usersRoutes = require('./routes/users.routes');
 const vehiclesRoutes = require('./routes/vehicles.routes');
@@ -45,5 +51,8 @@ app.use('/api/vehicles', vehiclesRoutes);
 app.use('/api/parking', parkingRoutes);
 app.use('/api/payments', paymentsRoutes);
 app.use('/api/reports', reportsRoutes);
+
+app.use(notFoundHandler);
+app.use(errorHandler);
 
 module.exports = app;
