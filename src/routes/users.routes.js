@@ -8,6 +8,11 @@ const {
 const { authenticateToken } = require('../middlewares/auth.middleware');
 const { authorizeRoles } = require('../middlewares/role.middleware');
 
+const {
+  validateUserIdParam,
+  validateUserStatus
+} = require('../middlewares/validate.middleware');
+
 const router = express.Router();
 
 router.get(
@@ -21,6 +26,7 @@ router.get(
   '/:user_id',
   authenticateToken,
   authorizeRoles('administrador'),
+  validateUserIdParam,
   findById
 );
 
@@ -28,6 +34,7 @@ router.patch(
   '/:user_id/status',
   authenticateToken,
   authorizeRoles('administrador'),
+  validateUserStatus,
   updateStatus
 );
 
