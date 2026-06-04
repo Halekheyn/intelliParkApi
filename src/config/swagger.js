@@ -75,7 +75,7 @@ const swaggerOptions = {
             },
             user_role: {
               type: 'string',
-              enum: ['administrador', 'operador', 'cliente'],
+              enum: ['administrador', 'operador'],
               example: 'administrador'
             }
           }
@@ -96,22 +96,45 @@ const swaggerOptions = {
         },
         VehicleRequest: {
           type: 'object',
-          required: ['plate'],
+          required: ['vehicle_plate'],
           properties: {
-            plate: {
+            vehicle_plate: {
               type: 'string',
               example: 'ABC123'
             },
-            type: {
+            vehicle_type: {
               type: 'string',
-              enum: ['carro', 'moto', 'camioneta', 'otro'],
+              enum: ['carro', 'moto'],
               example: 'carro'
             },
-            brand: {
+            vehicle_brand: {
               type: 'string',
               example: 'Renault'
             },
-            color: {
+            vehicle_color: {
+              type: 'string',
+              example: 'Gris'
+            }
+          }
+        },
+        CheckInRequest: {
+          type: 'object',
+          required: ['vehicle_plate'],
+          properties: {
+            vehicle_plate: {
+              type: 'string',
+              example: 'ABC123'
+            },
+            vehicle_type: {
+              type: 'string',
+              enum: ['carro', 'moto'],
+              example: 'carro'
+            },
+            vehicle_brand: {
+              type: 'string',
+              example: 'Renault'
+            },
+            vehicle_color: {
               type: 'string',
               example: 'Gris'
             }
@@ -119,9 +142,9 @@ const swaggerOptions = {
         },
         CheckOutRequest: {
           type: 'object',
-          required: ['plate'],
+          required: ['vehicle_plate'],
           properties: {
-            plate: {
+            vehicle_plate: {
               type: 'string',
               example: 'ABC123'
             }
@@ -129,20 +152,30 @@ const swaggerOptions = {
         },
         PaymentRequest: {
           type: 'object',
-          required: ['parkingId'],
+          required: ['parking_id'],
           properties: {
-            parkingId: {
+            parking_id: {
               type: 'integer',
               example: 1
             },
-            paymentMethod: {
+            payment_method: {
               type: 'string',
               enum: ['efectivo', 'transferencia', 'tarjeta', 'otro'],
               example: 'efectivo'
             },
-            paymentReference: {
+            payment_reference: {
               type: 'string',
               example: 'REF-12345'
+            }
+          }
+        },
+        UserStatusRequest: {
+          type: 'object',
+          required: ['user_active'],
+          properties: {
+            user_active: {
+              type: 'boolean',
+              example: false
             }
           }
         },
@@ -151,7 +184,7 @@ const swaggerOptions = {
           properties: {
             message: {
               type: 'string',
-              example: 'Validation error'
+              example: 'Error de validación'
             }
           }
         }
