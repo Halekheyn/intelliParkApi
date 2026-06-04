@@ -46,39 +46,39 @@ const calculateParkingFee = (entryTime, exitTime, vehicleType) => {
 };
 
 const checkInVehicle = async (checkInData, authenticatedUser) => {
-  const { plate } = checkInData;
+  const { vehicle_plate } = checkInData;
 
-  if (!plate) {
-    throw new Error('Vehicle plate is required');
+  if (!vehicle_plate) {
+    throw new Error('La placa del vehículo es requerida.');
   }
 
-  const normalizedPlate = plate.trim().toUpperCase();
+  const normalizedPlate = vehicle_plate.trim().toUpperCase();
 
   let vehicle = await findVehicleByPlate(normalizedPlate);
 
   if (!vehicle) {
     vehicle = await createVehicle({
       plate: normalizedPlate,
-      type: checkInData.type || 'carro',
-      brand: checkInData.brand,
-      color: checkInData.color,
-      createdBy: authenticatedUser.userId
+      type: checkInData.vehicle_type || 'carro',
+      brand: checkInData.vehicle_brand,
+      color: checkInData.vehicle_color,
+      createdBy: authenticatedUser.user_id
     });
   }
 
   if (!vehicle.vehicle_active) {
-    throw new Error('Vehicle is inactive');
+    throw new Error('El vehículo se encuentra inactivo.');
   }
 
   const activeParking = await findActiveParkingByVehicleId(vehicle.vehicle_id);
 
   if (activeParking) {
-    throw new Error('Vehicle already has an active parking record');
+    throw new Error('El vehículo ya tiene un registro de parqueo activo.');
   }
 
   const parkingRecord = await createParkingRecord({
     vehicleId: vehicle.vehicle_id,
-    createdBy: authenticatedUser.userId
+    createdBy: authenticatedUser.user_id
   });
 
   return {
@@ -95,28 +95,28 @@ const checkInVehicle = async (checkInData, authenticatedUser) => {
 };
 
 const checkOutVehicle = async (checkOutData) => {
-  const { plate } = checkOutData;
+  const { vehicle_plate } = checkOutData;
 
-  if (!plate) {
-    throw new Error('Vehicle plate is required');
+  if (!vehicle_plate) {
+    throw new Error('La placa del vehículo es requerida.');
   }
 
-  const normalizedPlate = plate.trim().toUpperCase();
+  const normalizedPlate = vehicle_plate.trim().toUpperCase();
 
   const vehicle = await findVehicleByPlate(normalizedPlate);
 
   if (!vehicle) {
-    throw new Error('Vehicle not found');
+    throw new Error('Vehículo no encontrado.');
   }
 
   if (!vehicle.vehicle_active) {
-    throw new Error('Vehicle is inactive');
+    throw new Error('El vehículo se encuentra inactivo.');
   }
 
   const activeParking = await findActiveParkingByVehicleId(vehicle.vehicle_id);
 
   if (!activeParking) {
-    throw new Error('Vehicle does not have an active parking record');
+    throw new Error('El vehículo no tiene un registro de parqueo activo.');
   }
 
   const exitTime = new Date();
