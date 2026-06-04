@@ -10,7 +10,7 @@ const create = async (req, res) => {
     const payment = await registerPayment(req.body, req.user);
 
     res.status(201).json({
-      message: 'Payment registered successfully',
+      message: 'Pago registrado con éxito.',
       data: payment
     });
   } catch (error) {
@@ -25,7 +25,7 @@ const findAll = async (req, res) => {
     const payments = await getAllPayments();
 
     res.status(200).json({
-      message: 'Payments retrieved successfully',
+      message: 'Pagos obtenidos con éxito.',
       data: payments
     });
   } catch (error) {
@@ -40,7 +40,7 @@ const findById = async (req, res) => {
     const payment = await getPaymentById(req.params.id);
 
     res.status(200).json({
-      message: 'Payment retrieved successfully',
+      message: 'Pago obtenido con éxito.',
       data: payment
     });
   } catch (error) {
@@ -55,7 +55,7 @@ const findByParkingId = async (req, res) => {
     const payment = await getPaymentByParkingId(req.params.parkingId);
 
     res.status(200).json({
-      message: 'Payment retrieved successfully',
+      message: 'Pago obtenido con éxito.',
       data: payment
     });
   } catch (error) {
