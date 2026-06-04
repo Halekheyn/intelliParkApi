@@ -36,7 +36,7 @@ const findById = async (req, res) => {
 
 const updateStatus = async (req, res) => {
   try {
-    const user = await changeUserStatus(req.params.user_id, req.body.active);
+    const user = await changeUserStatus(req.params.user_id, req.body.user_active);
 
     res.status(200).json({
       message: 'Estado del usuario actualizado con éxito.',
