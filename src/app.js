@@ -35,7 +35,7 @@ app.get('/api/health', async (req, res) => {
 
         res.status(200).json({
             status: 'ok',
-            message: 'IntelliPark API is running',
+            message: 'IntelliPark API está en funcionamiento.',
             database: {
                 connected: true,
                 time: databaseResult.rows[0].now
@@ -45,7 +45,7 @@ app.get('/api/health', async (req, res) => {
     catch(error){
         res.status(500).json({
             status: 'error',
-            message: 'IntelliPark API is running, but database connection failed',
+            message: 'IntelliPark API está en funcionamiento, pero la conexión a la base de datos falló.',
             database: {
                 connected: false,
                 error: error.message
