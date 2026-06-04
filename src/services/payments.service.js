@@ -14,19 +14,19 @@ const VALID_PAYMENT_METHODS = [
 ];
 
 const registerPayment = async (paymentData, authenticatedUser) => {
-  const { parkingId, paymentMethod, paymentReference } = paymentData;
+  const { parking_id, payment_method, payment_reference } = paymentData;
 
-  if (!parkingId) {
-    throw new Error('Parqueo ID requerido.');
+  if (!parking_id) {
+    throw new Error('El ID del parqueo es requerido.');
   }
 
-  const selectedPaymentMethod = paymentMethod || 'efectivo';
+  const selectedPaymentMethod = payment_method || 'efectivo';
 
   if (!VALID_PAYMENT_METHODS.includes(selectedPaymentMethod)) {
-    throw new Error('Método de pago invalido.');
+    throw new Error('Método de pago inválido.');
   }
 
-  const parkingRecord = await findParkingRecordForPayment(parkingId);
+  const parkingRecord = await findParkingRecordForPayment(parking_id);
 
   if (!parkingRecord) {
     throw new Error('No se encontró el registro de estacionamiento.');
@@ -37,21 +37,21 @@ const registerPayment = async (paymentData, authenticatedUser) => {
   }
 
   if (!parkingRecord.parking_total_amount) {
-    throw new Error('El registro de estacionamiento no tiene una cantidad calculada.');
+    throw new Error('El registro de estacionamiento no tiene un monto calculado.');
   }
 
-  const existingPayment = await findPaymentByParkingId(parkingId);
+  const existingPayment = await findPaymentByParkingId(parking_id);
 
   if (existingPayment) {
-    throw new Error('Payment already exists for this parking record');
+    throw new Error('Ya existe un pago registrado para este parqueo.');
   }
 
   const payment = await createPayment({
-    parkingId,
+    parkingId: parking_id,
     paymentMethod: selectedPaymentMethod,
     paymentAmount: parkingRecord.parking_total_amount,
-    paymentReference,
-    createdBy: authenticatedUser.userId
+    paymentReference: payment_reference,
+    createdBy: authenticatedUser.user_id
   });
 
   return {
@@ -76,13 +76,13 @@ const getAllPayments = async () => {
 
 const getPaymentById = async (paymentId) => {
   if (!paymentId) {
-    throw new Error('Se requiere el ID de pago.');
+    throw new Error('Se requiere el ID del pago.');
   }
 
   const payment = await findPaymentById(paymentId);
 
   if (!payment) {
-    throw new Error('Pago no encontrado');
+    throw new Error('Pago no encontrado.');
   }
 
   return payment;
@@ -90,7 +90,7 @@ const getPaymentById = async (paymentId) => {
 
 const getPaymentByParkingId = async (parkingId) => {
   if (!parkingId) {
-    throw new Error('Se requiere el ID de pago.');
+    throw new Error('Se requiere el ID del parqueo.');
   }
 
   const payment = await findPaymentByParkingId(parkingId);
