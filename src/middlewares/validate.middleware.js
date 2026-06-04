@@ -29,27 +29,27 @@ const validateRegisterUser = (req, res, next) => {
   const { user_first_name, user_last_name, user_email, user_password, user_role } = req.body;
 
   if (!user_first_name || typeof user_first_name !== 'string') {
-    errors.push('First name is required and must be text');
+    errors.push('El nombre es requerido y debe ser texto');
   }
 
   if (!user_last_name || typeof user_last_name !== 'string') {
-    errors.push('Last name is required and must be text');
+    errors.push('El apellido es requerido y debe ser texto');
   }
 
   if (!user_email || typeof user_email !== 'string') {
-    errors.push('Email is required and must be text');
+    errors.push('El correo electrónico es requerido y debe ser texto');
   } else if (!isValidEmail(user_email)) {
-    errors.push('Email format is invalid');
+    errors.push('El formato del correo electrónico es inválido');
   }
 
   if (!user_password || typeof user_password !== 'string') {
-    errors.push('Password is required and must be text');
+    errors.push('La contraseña es requerida y debe ser texto');
   } else if (user_password.length < 6) {
-    errors.push('Password must have at least 6 characters');
+    errors.push('La contraseña debe tener mínimo 6 caracteres');
   }
 
   if (user_role && !VALID_ROLES.includes(user_role)) {
-    errors.push('Role is invalid');
+    errors.push('El rol es inválido');
   }
 
   if (errors.length > 0) {
@@ -64,13 +64,13 @@ const validateLogin = (req, res, next) => {
   const { user_email, user_password } = req.body;
 
   if (!user_email || typeof user_email !== 'string') {
-    errors.push('Email is required and must be text');
+    errors.push('El correo electrónico es requerido y debe ser texto');
   } else if (!isValidEmail(user_email)) {
-    errors.push('Email format is invalid');
+    errors.push('El formato del correo electrónico es inválido');
   }
 
   if (!user_password || typeof user_password !== 'string') {
-    errors.push('Password is required and must be text');
+    errors.push('La contraseña es requerida y debe ser texto');
   }
 
   if (errors.length > 0) {
@@ -84,18 +84,17 @@ const validateIdParam = (req, res, next) => {
   const { id } = req.params;
 
   if (!isPositiveInteger(id)) {
-    return sendValidationError(res, ['Id must be a positive integer']);
+    return sendValidationError(res, ['El ID debe ser un entero positivo']);
   }
 
   return next();
 };
 
 const validateUserIdParam = (req, res, next) => {
-  const { user_id } = req.params;
-
-  if (!isPositiveInteger(id)) {
-    return sendValidationError(res, ['User Id must be a positive integer']);
+  if (!isPositiveInteger(req.params.user_id)) {
+    return sendValidationError(res, ['El ID de usuario debe ser un entero positivo']);
   }
+
   return next();
 };
 
@@ -103,7 +102,7 @@ const validateParkingIdParam = (req, res, next) => {
   const { parkingId } = req.params;
 
   if (!isPositiveInteger(parkingId)) {
-    return sendValidationError(res, ['Parking id must be a positive integer']);
+    return sendValidationError(res, ['El ID de parqueo debe ser un entero positivo']);
   }
 
   return next();
@@ -113,7 +112,7 @@ const validateUserStatus = (req, res, next) => {
   const { user_active } = req.body;
 
   if (typeof user_active !== 'boolean') {
-    return sendValidationError(res, ['Active value must be true or false']);
+    return sendValidationError(res, ['El valor de estado debe ser true o false']);
   }
 
   return next();
@@ -121,24 +120,24 @@ const validateUserStatus = (req, res, next) => {
 
 const validateVehicle = (req, res, next) => {
   const errors = [];
-  const { plate, type, brand, color } = req.body;
+  const { vehicle_plate, vehicle_type, vehicle_brand, vehicle_color } = req.body;
 
-  if (!plate || typeof plate !== 'string') {
-    errors.push('Vehicle plate is required and must be text');
-  } else if (plate.trim().length > 15) {
-    errors.push('Vehicle plate must have maximum 15 characters');
+  if (!vehicle_plate || typeof vehicle_plate !== 'string') {
+    errors.push('La placa del vehículo es requerida y debe ser texto');
+  } else if (vehicle_plate.trim().length > 15) {
+    errors.push('La placa del vehículo debe tener máximo 15 caracteres');
   }
 
-  if (type && !VALID_VEHICLE_TYPES.includes(type)) {
-    errors.push('Vehicle type is invalid');
+  if (vehicle_type && !VALID_VEHICLE_TYPES.includes(vehicle_type)) {
+    errors.push('El tipo de vehículo es inválido');
   }
 
-  if (brand && typeof brand !== 'string') {
-    errors.push('Vehicle brand must be text');
+  if (vehicle_brand && typeof vehicle_brand !== 'string') {
+    errors.push('La marca del vehículo debe ser texto');
   }
 
-  if (color && typeof color !== 'string') {
-    errors.push('Vehicle color must be text');
+  if (vehicle_color && typeof vehicle_color !== 'string') {
+    errors.push('El color del vehículo debe ser texto');
   }
 
   if (errors.length > 0) {
@@ -152,7 +151,7 @@ const validatePlateParam = (req, res, next) => {
   const { plate } = req.params;
 
   if (!plate || typeof plate !== 'string') {
-    return sendValidationError(res, ['Vehicle plate is required']);
+    return sendValidationError(res, ['La placa del vehículo es requerida']);
   }
 
   return next();
@@ -160,24 +159,24 @@ const validatePlateParam = (req, res, next) => {
 
 const validateCheckIn = (req, res, next) => {
   const errors = [];
-  const { plate, type, brand, color } = req.body;
+  const { vehicle_plate, vehicle_type, vehicle_brand, vehicle_color } = req.body;
 
-  if (!plate || typeof plate !== 'string') {
-    errors.push('Vehicle plate is required and must be text');
-  } else if (plate.trim().length > 15) {
-    errors.push('Vehicle plate must have maximum 15 characters');
+  if (!vehicle_plate || typeof vehicle_plate !== 'string') {
+    errors.push('La placa del vehículo es requerida y debe ser texto');
+  } else if (vehicle_plate.trim().length > 15) {
+    errors.push('La placa del vehículo debe tener máximo 15 caracteres');
   }
 
-  if (type && !VALID_VEHICLE_TYPES.includes(type)) {
-    errors.push('Vehicle type is invalid');
+  if (vehicle_type && !VALID_VEHICLE_TYPES.includes(vehicle_type)) {
+    errors.push('El tipo de vehículo es inválido');
   }
 
-  if (brand && typeof brand !== 'string') {
-    errors.push('Vehicle brand must be text');
+  if (vehicle_brand && typeof vehicle_brand !== 'string') {
+    errors.push('La marca del vehículo debe ser texto');
   }
 
-  if (color && typeof color !== 'string') {
-    errors.push('Vehicle color must be text');
+  if (vehicle_color && typeof vehicle_color !== 'string') {
+    errors.push('El color del vehículo debe ser texto');
   }
 
   if (errors.length > 0) {
@@ -188,14 +187,14 @@ const validateCheckIn = (req, res, next) => {
 };
 
 const validateCheckOut = (req, res, next) => {
-  const { plate } = req.body;
+  const { vehicle_plate } = req.body;
 
-  if (!plate || typeof plate !== 'string') {
-    return sendValidationError(res, ['Vehicle plate is required and must be text']);
+  if (!vehicle_plate || typeof vehicle_plate !== 'string') {
+    return sendValidationError(res, ['La placa del vehículo es requerida y debe ser texto']);
   }
 
-  if (plate.trim().length >= 5) {
-    return sendValidationError(res, ['Vehicle plate must have minimun 5 characters']);
+  if (vehicle_plate.trim().length < 5) {
+    return sendValidationError(res, ['La placa del vehículo debe tener mínimo 5 caracteres']);
   }
 
   return next();
@@ -203,22 +202,22 @@ const validateCheckOut = (req, res, next) => {
 
 const validatePayment = (req, res, next) => {
   const errors = [];
-  const { parkingId, paymentMethod, paymentReference } = req.body;
+  const { parking_id, payment_method, payment_reference } = req.body;
 
-  if (!parkingId || !isPositiveInteger(parkingId)) {
-    errors.push('Parking id is required and must be a positive integer');
+  if (!parking_id || !isPositiveInteger(parking_id)) {
+    errors.push('El ID de parqueo es requerido y debe ser un entero positivo');
   }
 
-  if (paymentMethod && !VALID_PAYMENT_METHODS.includes(paymentMethod)) {
-    errors.push('Payment method is invalid');
+  if (payment_method && !VALID_PAYMENT_METHODS.includes(payment_method)) {
+    errors.push('El método de pago es inválido');
   }
 
-  if (paymentReference && typeof paymentReference !== 'string') {
-    errors.push('Payment reference must be text');
+  if (payment_reference && typeof payment_reference !== 'string') {
+    errors.push('La referencia de pago debe ser texto');
   }
 
-  if (paymentReference && paymentReference.length > 100) {
-    errors.push('Payment reference must have maximum 100 characters');
+  if (payment_reference && payment_reference.length > 100) {
+    errors.push('La referencia de pago debe tener máximo 100 caracteres');
   }
 
   if (errors.length > 0) {
@@ -233,15 +232,15 @@ const validateIncomeReport = (req, res, next) => {
   const { from, to } = req.query;
 
   if (from && !isValidDate(from)) {
-    errors.push('From date must have format YYYY-MM-DD');
+    errors.push('La fecha de inicio debe tener formato AAAA-MM-DD');
   }
 
   if (to && !isValidDate(to)) {
-    errors.push('To date must have format YYYY-MM-DD');
+    errors.push('La fecha de fin debe tener formato AAAA-MM-DD');
   }
 
   if (from && to && isValidDate(from) && isValidDate(to) && from > to) {
-    errors.push('From date cannot be greater than to date');
+    errors.push('La fecha de inicio no puede ser mayor a la fecha de fin');
   }
 
   if (errors.length > 0) {
