@@ -33,7 +33,7 @@ const login = async (req, res) => {
 
 const getMe = async (req, res) => {
   try {
-    const user = await getAuthenticatedUser(req.user.userId);
+    const user = await getAuthenticatedUser(req.user.user_id);
 
     res.status(200).json({
       message: 'Usuario autenticado con éxito.',
