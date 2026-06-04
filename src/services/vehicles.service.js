@@ -6,26 +6,26 @@ const {
 } = require('../database/vehicles.db');
 
 const registerVehicle = async (vehicleData, authenticatedUser) => {
-  const { plate } = vehicleData;
+  const { vehicle_plate } = vehicleData;
 
-  if (!plate) {
-    throw new Error('La placa del vehículo ya esta registrada.');
+  if (!vehicle_plate) {
+    throw new Error('La placa del vehículo es requerida.');
   }
 
-  const normalizedPlate = plate.trim().toUpperCase();
+  const normalizedPlate = vehicle_plate.trim().toUpperCase();
 
   const existingVehicle = await findVehicleByPlate(normalizedPlate);
 
   if (existingVehicle) {
-    throw new Error('El veh');
+    throw new Error('La placa del vehículo ya está registrada.');
   }
 
   const newVehicle = await createVehicle({
     plate: normalizedPlate,
-    type: vehicleData.type || 'carro',
-    brand: vehicleData.brand,
-    color: vehicleData.color,
-    createdBy: authenticatedUser.userId
+    type: vehicleData.vehicle_type || 'carro',
+    brand: vehicleData.vehicle_brand,
+    color: vehicleData.vehicle_color,
+    createdBy: authenticatedUser.user_id
   });
 
   return newVehicle;
@@ -47,7 +47,7 @@ const getVehicleById = async (vehicleId) => {
 
 const getVehicleByPlate = async (plate) => {
   if (!plate) {
-    throw new Error('La placa del vehiculo es requerida');
+    throw new Error('La placa del vehículo es requerida.');
   }
 
   const normalizedPlate = plate.trim().toUpperCase();
@@ -55,7 +55,7 @@ const getVehicleByPlate = async (plate) => {
   const vehicle = await findVehicleByPlate(normalizedPlate);
 
   if (!vehicle) {
-    throw new Error('Vehículo no enctrado');
+    throw new Error('Vehículo no encontrado.');
   }
 
   return vehicle;
