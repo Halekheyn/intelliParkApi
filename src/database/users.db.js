@@ -85,7 +85,7 @@ const createUser = async (userData) => {
     userData.user_last_name,
     userData.user_email,
     userData.user_password_hash,
-    userData.user_role || 'operator'
+    userData.user_role || 'operador'
   ];
 
   const result = await pool.query(query, values);
