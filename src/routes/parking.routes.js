@@ -16,6 +16,48 @@ const {
 
 const router = express.Router();
 
+/**
+ * @swagger
+ * /api/parking/check-in:
+ *   post:
+ *     summary: Registrar ingreso de vehículo
+ *     description: Registra el ingreso de un vehículo al parqueadero. Si la placa no existe, el sistema puede crear el vehículo automáticamente según la lógica del servicio.
+ *     tags:
+ *       - Parking
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - vehicle_plate
+ *             properties:
+ *               vehicle_plate:
+ *                 type: string
+ *                 example: ABC123
+ *               vehicle_type:
+ *                 type: string
+ *                 enum: [carro, moto, camioneta, otro]
+ *                 example: carro
+ *               vehicle_brand:
+ *                 type: string
+ *                 example: Renault
+ *               vehicle_color:
+ *                 type: string
+ *                 example: Gris
+ *     responses:
+ *       201:
+ *         description: Ingreso de vehículo registrado correctamente.
+ *       400:
+ *         description: Datos inválidos o el vehículo ya tiene un ingreso activo.
+ *       401:
+ *         description: Token de autorización requerido, inválido o vencido.
+ *       403:
+ *         description: Usuario sin permisos para realizar esta operación.
+ */
 router.post(
   '/check-in',
   authenticateToken,
@@ -24,6 +66,38 @@ router.post(
   checkIn
 );
 
+/**
+ * @swagger
+ * /api/parking/check-out:
+ *   post:
+ *     summary: Registrar salida de vehículo
+ *     description: Registra la salida de un vehículo, calcula el tiempo de permanencia y el valor total del servicio.
+ *     tags:
+ *       - Parking
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - vehicle_plate
+ *             properties:
+ *               vehicle_plate:
+ *                 type: string
+ *                 example: ABC123
+ *     responses:
+ *       200:
+ *         description: Salida de vehículo registrada correctamente.
+ *       400:
+ *         description: Datos inválidos, vehículo inexistente o sin ingreso activo.
+ *       401:
+ *         description: Token de autorización requerido, inválido o vencido.
+ *       403:
+ *         description: Usuario sin permisos para realizar esta operación.
+ */
 router.post(
   '/check-out',
   authenticateToken,
@@ -32,6 +106,24 @@ router.post(
   checkOut
 );
 
+/**
+ * @swagger
+ * /api/parking/active:
+ *   get:
+ *     summary: Consultar vehículos activos en parqueadero
+ *     description: Lista los registros de parqueo que se encuentran activos, es decir, vehículos que aún no tienen salida registrada.
+ *     tags:
+ *       - Parking
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Registros activos consultados correctamente.
+ *       401:
+ *         description: Token de autorización requerido, inválido o vencido.
+ *       403:
+ *         description: Usuario sin permisos para consultar esta información.
+ */
 router.get(
   '/active',
   authenticateToken,
