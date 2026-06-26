@@ -42,8 +42,8 @@ const getIncomeByVehicleType = async (fromDate, toDate) => {
       COALESCE(SUM(p.payment_amount), 0) AS total_income,
       COUNT(p.payment_id) AS total_payments
     FROM payments p
-    INNER JOIN parking_records pr ON p.parking_id = pr.parking_id
-    INNER JOIN vehicles v ON pr.vehicle_id = v.vehicle_id
+    INNER JOIN parking_records pr ON p.payment_parking_id = pr.parking_id
+    INNER JOIN vehicles v ON pr.parking_vehicle_id = v.vehicle_id
     WHERE p.payment_created_at >= $1::date
       AND p.payment_created_at < ($2::date + INTERVAL '1 day')
     GROUP BY v.vehicle_type
@@ -60,7 +60,7 @@ const getPaymentDetails = async (fromDate, toDate) => {
   const query = `
     SELECT
       p.payment_id,
-      p.parking_id,
+      p.payment_parking_id,
       p.payment_method,
       p.payment_amount,
       p.payment_reference,
@@ -71,8 +71,8 @@ const getPaymentDetails = async (fromDate, toDate) => {
       pr.parking_exit_time,
       pr.parking_total_minutes
     FROM payments p
-    INNER JOIN parking_records pr ON p.parking_id = pr.parking_id
-    INNER JOIN vehicles v ON pr.vehicle_id = v.vehicle_id
+    INNER JOIN parking_records pr ON p.payment_parking_id = pr.parking_id
+    INNER JOIN vehicles v ON pr.parking_vehicle_id = v.vehicle_id
     WHERE p.payment_created_at >= $1::date
       AND p.payment_created_at < ($2::date + INTERVAL '1 day')
     ORDER BY p.payment_created_at DESC
