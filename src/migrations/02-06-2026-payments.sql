@@ -12,7 +12,7 @@ END $$;
 
 CREATE TABLE IF NOT EXISTS payments (
   payment_id SERIAL PRIMARY KEY,
-  payments_parking_id INTEGER NOT NULL UNIQUE,
+  payment_parking_id INTEGER NOT NULL UNIQUE,
   payment_method payment_methods NOT NULL DEFAULT 'efectivo',
   payment_amount NUMERIC(10, 2) NOT NULL,
   payment_reference VARCHAR(100),
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS payments (
   payment_updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
   CONSTRAINT fk_payments_parking
-    FOREIGN KEY (payments_parking_id)
+    FOREIGN KEY (payment_parking_id)
     REFERENCES parking_records(parking_id)
     ON DELETE RESTRICT
     ON UPDATE CASCADE,

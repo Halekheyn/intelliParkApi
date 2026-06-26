@@ -202,9 +202,9 @@ const validateCheckOut = (req, res, next) => {
 
 const validatePayment = (req, res, next) => {
   const errors = [];
-  const { parking_id, payment_method, payment_reference } = req.body;
+  const { payment_parking_id, payment_method, payment_reference } = req.body;
 
-  if (!parking_id || !isPositiveInteger(parking_id)) {
+  if (!payment_parking_id || !isPositiveInteger(payment_parking_id)) {
     errors.push('El ID de parqueo es requerido y debe ser un entero positivo');
   }
 

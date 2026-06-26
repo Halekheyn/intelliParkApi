@@ -3,7 +3,7 @@ const { pool } = require('../config/database');
 const createPayment = async (paymentData) => {
   const query = `
     INSERT INTO payments (
-      parking_id,
+      payment_parking_id,
       payment_method,
       payment_amount,
       payment_reference,
@@ -12,7 +12,7 @@ const createPayment = async (paymentData) => {
     VALUES ($1, $2, $3, $4, $5)
     RETURNING
       payment_id,
-      parking_id,
+      payment_parking_id,
       payment_method,
       payment_amount,
       payment_reference,
@@ -37,14 +37,14 @@ const findPaymentById = async (paymentId) => {
   const query = `
     SELECT
       p.payment_id,
-      p.parking_id,
+      p.payment_parking_id,
       p.payment_method,
       p.payment_amount,
       p.payment_reference,
       p.payment_created_by,
       p.payment_created_at,
       p.payment_updated_at,
-      pr.vehicle_id,
+      pr.parking_vehicle_id,
       pr.parking_entry_time,
       pr.parking_exit_time,
       pr.parking_status,
@@ -52,8 +52,8 @@ const findPaymentById = async (paymentId) => {
       v.vehicle_plate,
       v.vehicle_type
     FROM payments p
-    INNER JOIN parking_records pr ON p.parking_id = pr.parking_id
-    INNER JOIN vehicles v ON pr.vehicle_id = v.vehicle_id
+    INNER JOIN parking_records pr ON p.payment_parking_id = pr.parking_id
+    INNER JOIN vehicles v ON pr.parking_vehicle_id = v.vehicle_id
     WHERE p.payment_id = $1
   `;
 
@@ -65,7 +65,7 @@ const findPaymentByParkingId = async (parkingId) => {
   const query = `
     SELECT
       payment_id,
-      parking_id,
+      payment_parking_id,
       payment_method,
       payment_amount,
       payment_reference,
@@ -73,7 +73,7 @@ const findPaymentByParkingId = async (parkingId) => {
       payment_created_at,
       payment_updated_at
     FROM payments
-    WHERE parking_id = $1
+    WHERE payment_parking_id = $1
   `;
 
   const result = await pool.query(query, [parkingId]);
@@ -84,7 +84,7 @@ const findAllPayments = async () => {
   const query = `
     SELECT
       p.payment_id,
-      p.parking_id,
+      p.payment_parking_id,
       p.payment_method,
       p.payment_amount,
       p.payment_reference,
@@ -96,8 +96,8 @@ const findAllPayments = async () => {
       v.vehicle_plate,
       v.vehicle_type
     FROM payments p
-    INNER JOIN parking_records pr ON p.parking_id = pr.parking_id
-    INNER JOIN vehicles v ON pr.vehicle_id = v.vehicle_id
+    INNER JOIN parking_records pr ON p.payment_parking_id = pr.parking_id
+    INNER JOIN vehicles v ON pr.parking_vehicle_id = v.vehicle_id
     ORDER BY p.payment_created_at DESC
   `;
 
@@ -109,7 +109,7 @@ const findParkingRecordForPayment = async (parkingId) => {
   const query = `
     SELECT
       pr.parking_id,
-      pr.vehicle_id,
+      pr.parking_vehicle_id,
       pr.parking_entry_time,
       pr.parking_exit_time,
       pr.parking_status,
@@ -118,7 +118,7 @@ const findParkingRecordForPayment = async (parkingId) => {
       v.vehicle_plate,
       v.vehicle_type
     FROM parking_records pr
-    INNER JOIN vehicles v ON pr.vehicle_id = v.vehicle_id
+    INNER JOIN vehicles v ON pr.parking_vehicle_id = v.vehicle_id
     WHERE pr.parking_id = $1
   `;
 

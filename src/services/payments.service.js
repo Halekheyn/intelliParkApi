@@ -14,9 +14,9 @@ const VALID_PAYMENT_METHODS = [
 ];
 
 const registerPayment = async (paymentData, authenticatedUser) => {
-  const { parking_id, payment_method, payment_reference } = paymentData;
+  const { payment_parking_id, payment_method, payment_reference } = paymentData;
 
-  if (!parking_id) {
+  if (!payment_parking_id) {
     throw new Error('El ID del parqueo es requerido.');
   }
 
@@ -26,7 +26,7 @@ const registerPayment = async (paymentData, authenticatedUser) => {
     throw new Error('Método de pago inválido.');
   }
 
-  const parkingRecord = await findParkingRecordForPayment(parking_id);
+  const parkingRecord = await findParkingRecordForPayment(payment_parking_id);
 
   if (!parkingRecord) {
     throw new Error('No se encontró el registro de estacionamiento.');
@@ -40,14 +40,14 @@ const registerPayment = async (paymentData, authenticatedUser) => {
     throw new Error('El registro de estacionamiento no tiene un monto calculado.');
   }
 
-  const existingPayment = await findPaymentByParkingId(parking_id);
+  const existingPayment = await findPaymentByParkingId(payment_parking_id);
 
   if (existingPayment) {
     throw new Error('Ya existe un pago registrado para este parqueo.');
   }
 
   const payment = await createPayment({
-    parkingId: parking_id,
+    parkingId: payment_parking_id,
     paymentMethod: selectedPaymentMethod,
     paymentAmount: parkingRecord.parking_total_amount,
     paymentReference: payment_reference,
@@ -56,7 +56,7 @@ const registerPayment = async (paymentData, authenticatedUser) => {
 
   return {
     paymentId: payment.payment_id,
-    parkingId: payment.parking_id,
+    parkingId: payment.payment_parking_id,
     plate: parkingRecord.vehicle_plate,
     vehicleType: parkingRecord.vehicle_type,
     paymentMethod: payment.payment_method,
